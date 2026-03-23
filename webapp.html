@@ -34,7 +34,6 @@
     overscroll-behavior: none;
   }
 
-  /* ── Noise texture overlay ── */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -42,12 +41,10 @@
     pointer-events: none; z-index: 9999;
   }
 
-  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-  /* ── Layout ── */
   .app {
     max-width: 480px;
     margin: 0 auto;
@@ -60,7 +57,6 @@
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
 
-  /* ── Header ── */
   .header {
     display: flex;
     align-items: center;
@@ -96,7 +92,6 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* ── Card ── */
   .card {
     background: var(--bg2);
     border: 1px solid var(--border);
@@ -115,7 +110,6 @@
     background: var(--border);
   }
 
-  /* ── Language selector ── */
   .lang-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -133,9 +127,7 @@
     align-items: center; gap: 8px;
     user-select: none;
   }
-  .lang-btn .icon {
-    font-size: 24px; line-height: 1;
-  }
+  .lang-btn .icon { font-size: 24px; line-height: 1; }
   .lang-btn .name {
     font-size: 14px; font-weight: 600;
     color: var(--muted);
@@ -149,7 +141,6 @@
   .lang-btn.active .name { color: var(--accent); }
   .lang-btn:active { transform: scale(.96); }
 
-  /* ── Upload zone ── */
   .upload-zone {
     border: 2px dashed var(--border);
     border-radius: var(--radius);
@@ -169,15 +160,12 @@
     opacity: 0; cursor: pointer; width: 100%;
   }
   .upload-zone .upload-icon { font-size: 32px; margin-bottom: 8px; }
-  .upload-zone .upload-title {
-    font-size: 16px; font-weight: 600; color: var(--text);
-  }
+  .upload-zone .upload-title { font-size: 16px; font-weight: 600; color: var(--text); }
   .upload-zone .upload-sub {
     font-size: 12px; color: var(--muted); margin-top: 4px;
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* ── File info ── */
   .file-info {
     display: none;
     background: var(--bg3);
@@ -202,7 +190,6 @@
     padding: 2px; line-height: 1; flex-shrink: 0;
   }
 
-  /* ── Status bar ── */
   .status-bar {
     display: none;
     background: var(--bg3);
@@ -222,7 +209,6 @@
   .status-bar.error    { border-color: var(--danger); background: rgba(239,68,68,.06); }
   .status-bar.error    .st-icon::after { content: '❌'; }
 
-  /* ── Progress ── */
   .progress-wrap {
     display: none;
     height: 4px; background: var(--border);
@@ -236,13 +222,9 @@
     transition: width .3s ease;
     animation: pulse 1.5s ease-in-out infinite;
   }
-  @keyframes pulse {
-    0%,100% { opacity: 1; }
-    50%      { opacity: .6; }
-  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
   .progress-bar.done { animation: none; opacity: 1; }
 
-  /* ── Buttons ── */
   .btn {
     width: 100%;
     padding: 16px;
@@ -296,12 +278,12 @@
   }
 
   .btn-group {
-    display: flex; flex-direction: column; gap: 10px;
     display: none;
+    flex-direction: column;
+    gap: 10px;
   }
   .btn-group.show { display: flex; }
 
-  /* ── Spinner ── */
   .spinner {
     width: 18px; height: 18px;
     border: 2px solid rgba(255,255,255,.3);
@@ -311,19 +293,23 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Demo badge ── */
-  .demo-badge {
-    background: rgba(245,158,11,.1);
-    border: 1px solid rgba(245,158,11,.3);
-    color: var(--warn);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 12px; line-height: 1.5;
-    font-family: 'JetBrains Mono', monospace;
+  /* ── Error toast ── */
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 24px; left: 16px; right: 16px;
+    background: rgba(239,68,68,.95);
+    color: #fff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 14px; font-weight: 600;
+    z-index: 10000;
+    animation: slideUp .3s ease;
+    backdrop-filter: blur(10px);
   }
-  .demo-badge strong { display: block; margin-bottom: 2px; }
+  .toast.show { display: block; }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-  /* ── Grid glow bg ── */
   .app-bg {
     position: fixed; inset: 0;
     background:
@@ -333,21 +319,50 @@
     z-index: 0;
   }
   .app { position: relative; z-index: 1; }
+
+  /* ── URL config card ── */
+  .url-config {
+    background: rgba(245,158,11,.08);
+    border: 1px solid rgba(245,158,11,.25);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--warn);
+    display: none;
+  }
+  .url-config.show { display: block; }
+  .url-config input {
+    width: 100%; margin-top: 8px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 10px;
+    color: var(--text); font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .url-config input:focus { outline: none; border-color: var(--warn); }
 </style>
 </head>
 <body>
 
 <div class="app-bg"></div>
 
+<div class="toast" id="toast"></div>
+
 <div class="app">
 
   <!-- Header -->
   <div class="header">
-    <div class="header-icon">🔨</div>
+    <div class="header-icon">🔒</div>
     <div class="header-text">
       <h1>CodeObfuscator</h1>
-      <p>// demo edition</p>
+      <p>// protect your code</p>
     </div>
+  </div>
+
+  <!-- URL config (показывается если BASE_URL не задан) -->
+  <div class="url-config" id="urlConfig">
+    ⚠ API URL не настроен. Введи адрес бэкенда:
+    <input type="text" id="baseUrlInput" placeholder="https://your-api.example.com" oninput="saveBaseUrl(this.value)">
   </div>
 
   <!-- Language select -->
@@ -414,7 +429,7 @@
       <span>⬇️</span>
       <span>Скачать файл</span>
     </button>
-    <button class="btn btn-tg" onclick="sendToTelegram()">
+    <button class="btn btn-tg" id="btnSendTg" onclick="sendToTelegram()">
       <span>✈️</span>
       <span>Отправить в Telegram</span>
     </button>
@@ -424,25 +439,33 @@
     </button>
   </div>
 
-  <!-- Demo notice -->
-  <div class="demo-badge">
-    <strong>⚠ Demo-режим</strong>
-    Обфускация демонстрационная. Для продакшена используй
-    PyArmor, ProGuard, javascript-obfuscator.
-  </div>
-
 </div>
 
 <script>
-const BASE_URL = '%%BASE_URL%%'; // подставляется из .env или задаётся вручную
+// ── BASE_URL ──────────────────────────────────────────────────────────────────
+// Приоритеты: 1) шаблонная подстановка из .env, 2) localStorage, 3) конфиг карточка
+const TEMPLATE_URL = '%%BASE_URL%%';
+
+function getBaseUrl() {
+  // Если шаблон НЕ был заменён — пробуем localStorage
+  if (TEMPLATE_URL && TEMPLATE_URL !== '%%BASE_URL%%' && !TEMPLATE_URL.startsWith('%%')) {
+    return TEMPLATE_URL.replace(/\/$/, ''); // убираем trailing slash
+  }
+  const saved = localStorage.getItem('obf_base_url');
+  if (saved) return saved.replace(/\/$/, '');
+  return null;
+}
+
+function saveBaseUrl(val) {
+  localStorage.setItem('obf_base_url', val.trim());
+}
 
 // ── State ──────────────────────────────────────────────────────────────────────
-let tg         = window.Telegram?.WebApp;
-let userId     = tg?.initDataUnsafe?.user?.id ?? null;
+let tg           = window.Telegram?.WebApp;
+let userId       = tg?.initDataUnsafe?.user?.id ?? null;
 let selectedLang = 'javascript';
 let selectedFile = null;
 let currentJobId = null;
-let pollTimer    = null;
 
 if (tg) {
   tg.ready();
@@ -450,6 +473,18 @@ if (tg) {
   tg.setHeaderColor('#0a0c10');
   tg.setBackgroundColor('#0a0c10');
 }
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(function init() {
+  const baseUrl = getBaseUrl();
+  if (!baseUrl) {
+    document.getElementById('urlConfig').classList.add('show');
+  }
+  // Скрываем кнопку "Отправить в Telegram" если нет userId
+  if (!userId) {
+    document.getElementById('btnSendTg').style.display = 'none';
+  }
+})();
 
 // ── Language ───────────────────────────────────────────────────────────────────
 function selectLang(btn) {
@@ -465,6 +500,12 @@ function fileSelected() {
 }
 
 function setFile(file) {
+  const ALLOWED = ['js', 'py', 'java', 'txt'];
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!ALLOWED.includes(ext)) {
+    showToast('Неподдерживаемый файл. Разрешены: .js .py .java .txt');
+    return;
+  }
   selectedFile = file;
   document.getElementById('fileName').textContent = file.name;
   document.getElementById('fileSize').textContent = formatSize(file.size);
@@ -473,7 +514,6 @@ function setFile(file) {
   document.getElementById('btnObfuscate').disabled = false;
 
   // Auto-detect language
-  const ext = file.name.split('.').pop().toLowerCase();
   const map = { js: 'javascript', py: 'python', java: 'java' };
   if (map[ext]) {
     document.querySelectorAll('.lang-btn').forEach(b => {
@@ -511,9 +551,51 @@ function formatSize(bytes) {
   return (bytes/1048576).toFixed(1) + ' MB';
 }
 
+// ── API request с обработкой ошибок ────────────────────────────────────────────
+async function apiRequest(url, options = {}) {
+  const baseUrl = getBaseUrl();
+  if (!baseUrl) {
+    throw new Error('API URL не задан. Введи адрес бэкенда выше.');
+  }
+
+  const fullUrl = baseUrl + url;
+
+  // Добавляем mode: 'cors' явно
+  const fetchOptions = {
+    mode: 'cors',
+    credentials: 'omit',
+    ...options,
+  };
+
+  let res;
+  try {
+    res = await fetch(fullUrl, fetchOptions);
+  } catch (e) {
+    // Network error — даём понятное сообщение
+    if (e instanceof TypeError && e.message.includes('fetch')) {
+      throw new Error(`Не удалось подключиться к ${baseUrl}. Проверь:\n• Запущен ли сервер?\n• Правильный ли URL?\n• CORS настроен?`);
+    }
+    throw e;
+  }
+
+  if (!res.ok) {
+    let errText = '';
+    try { errText = await res.text(); } catch {}
+    throw new Error(`Ошибка ${res.status}: ${errText || res.statusText}`);
+  }
+
+  return res;
+}
+
 // ── Obfuscation ────────────────────────────────────────────────────────────────
 async function startObfuscation() {
   if (!selectedFile) return;
+
+  const baseUrl = getBaseUrl();
+  if (!baseUrl) {
+    showToast('Сначала введи URL бэкенда в поле выше!');
+    return;
+  }
 
   const btn = document.getElementById('btnObfuscate');
   btn.disabled = true;
@@ -529,8 +611,7 @@ async function startObfuscation() {
     form.append('language', selectedLang);
     form.append('file', selectedFile);
 
-    const upRes = await fetch(`${BASE_URL}/upload`, { method: 'POST', body: form });
-    if (!upRes.ok) throw new Error(await upRes.text());
+    const upRes = await apiRequest('/upload', { method: 'POST', body: form });
     const { job_id } = await upRes.json();
     currentJobId = job_id;
 
@@ -539,8 +620,7 @@ async function startObfuscation() {
     setStatus('pending', 'Обфускация кода…', `Язык: ${selectedLang}`);
 
     // 2. Run obfuscation
-    const obfRes = await fetch(`${BASE_URL}/obfuscate/${job_id}`, { method: 'POST' });
-    if (!obfRes.ok) throw new Error(await obfRes.text());
+    await apiRequest(`/obfuscate/${job_id}`, { method: 'POST' });
 
     showProgress(80);
 
@@ -557,10 +637,10 @@ async function startObfuscation() {
 async function pollStatus(jobId) {
   const btn = document.getElementById('btnObfuscate');
 
-  for (let i = 0; i < 30; i++) {
-    await sleep(800);
+  for (let i = 0; i < 60; i++) {
+    await sleep(1000);
     try {
-      const res = await fetch(`${BASE_URL}/status/${jobId}`);
+      const res = await apiRequest(`/status/${jobId}`);
       const data = await res.json();
 
       if (data.status === 'done') {
@@ -574,39 +654,45 @@ async function pollStatus(jobId) {
         throw new Error(data.error ?? 'Ошибка обфускации');
       }
     } catch (err) {
-      if (err.message !== 'Failed to fetch') throw err;
+      // Пробуем ещё раз при сетевой ошибке
+      if (i < 3) continue;
+      throw err;
     }
   }
-  throw new Error('Превышено время ожидания');
+  throw new Error('Превышено время ожидания (60 сек)');
 }
 
 // ── Actions ────────────────────────────────────────────────────────────────────
 function downloadFile() {
   if (!currentJobId) return;
-  window.open(`${BASE_URL}/download/${currentJobId}`, '_blank');
+  const baseUrl = getBaseUrl();
+  if (!baseUrl) { showToast('API URL не задан'); return; }
+  window.open(`${baseUrl}/download/${currentJobId}`, '_blank');
 }
 
 async function sendToTelegram() {
   if (!currentJobId || !userId) {
-    alert('Не удалось определить пользователя Telegram. Откройте через бота.');
+    showToast('Не удалось определить пользователя Telegram. Откройте через бота.');
     return;
   }
   const form = new FormData();
   form.append('user_id', userId);
 
-  const btn = document.querySelector('.btn-tg');
+  const btn = document.getElementById('btnSendTg');
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner"></div><span>Отправка…</span>';
 
   try {
-    const res = await fetch(`${BASE_URL}/send/${currentJobId}`, { method: 'POST', body: form });
-    if (!res.ok) throw new Error(await res.text());
+    await apiRequest(`/send/${currentJobId}`, { method: 'POST', body: form });
     btn.innerHTML = '<span>✅</span><span>Отправлено!</span>';
-    setTimeout(() => { btn.disabled = false; btn.innerHTML = '<span>✈️</span><span>Отправить в Telegram</span>'; }, 3000);
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerHTML = '<span>✈️</span><span>Отправить в Telegram</span>';
+    }, 3000);
   } catch (err) {
     btn.disabled = false;
     btn.innerHTML = '<span>✈️</span><span>Отправить в Telegram</span>';
-    alert('Ошибка: ' + (err.message ?? String(err)));
+    showToast('Ошибка: ' + (err.message ?? String(err)));
   }
 }
 
@@ -620,6 +706,7 @@ function resetAll() {
   btn.style.display = '';
   btn.disabled = true;
   btn.innerHTML = '<span>🔒</span><span>Обфусцировать</span>';
+  document.getElementById('btnSendTg').innerHTML = '<span>✈️</span><span>Отправить в Telegram</span>';
 }
 
 // ── UI helpers ─────────────────────────────────────────────────────────────────
@@ -633,6 +720,7 @@ function setStatus(type, text, sub) {
 function showError(msg) {
   setStatus('error', '❌ Ошибка', msg);
   document.getElementById('progressWrap').classList.remove('show');
+  showToast(msg);
 }
 
 function showProgress(pct, done = false) {
@@ -645,6 +733,15 @@ function showProgress(pct, done = false) {
 
 function showResultBtns(show) {
   document.getElementById('btnGroup').classList.toggle('show', show);
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 5000);
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
